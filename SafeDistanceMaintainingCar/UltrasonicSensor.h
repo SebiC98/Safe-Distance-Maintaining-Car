@@ -13,6 +13,7 @@ volatile float pulse = 0;
 volatile int i = 0;
 
 ISR(INT0_vect)
+//interrupt service routine for external interrupt 0
 {
 	if (i==1) 
 	// when logic changes from HIGH to LOW

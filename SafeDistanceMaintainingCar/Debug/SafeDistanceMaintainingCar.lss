@@ -99,11 +99,11 @@ Disassembly of section .text:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 000000a6 <__vector_1>:
-
 volatile float pulse = 0;
 volatile int i = 0;
 
 ISR(INT0_vect)
+//interrupt service routine for external interrupt 0
 {
   a6:	1f 92       	push	r1
   a8:	0f 92       	push	r0

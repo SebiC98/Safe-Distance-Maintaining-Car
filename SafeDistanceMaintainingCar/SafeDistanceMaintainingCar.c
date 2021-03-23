@@ -2,7 +2,7 @@
  * SafeDistanceMaintainingCar.c
  *
  * Created: 3/22/2021 1:04:26 PM
- *  Author: Sebastian Cioat?
+ *  Author: Sebastian Cioata
  */ 
 
 
