@@ -12,20 +12,22 @@
 
 void UART_Init()
 {
-	//enable receive and transmit
+
 	UCSR0B |= ((1<< RXEN0) | (1<< TXEN0));
+	// enable receive and transmit
 	
-	//baud rate 9600
 	UBRR0H = 0;
 	UBRR0L = 103;
+	// baud rate 9600
 }
 
 void UART_Transmit(unsigned char data){
 	while(!(UCSR0A & (1<<UDRE0) )){
+	// wait for empty transmit buffer
 		
 	}
-	
 	UDR0 = data;
+	// put data into buffer
 }
 
 void Serial_print_text(char* text){
@@ -35,6 +37,7 @@ void Serial_print_text(char* text){
 		i++;
 	}
 }
+// function to print text on serial monitor
 
 void Serial_print_val(unsigned int val){
 	unsigned char digit;
@@ -52,6 +55,8 @@ void Serial_print_val(unsigned int val){
 		}
 	}
 }
+
+// function to print value on serial monitor
 
 
 #endif /* UART_H_ */

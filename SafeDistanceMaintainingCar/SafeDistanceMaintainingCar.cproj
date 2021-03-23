@@ -96,6 +96,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MotorDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PWM.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SafeDistanceMaintainingCar.c">
       <SubType>compile</SubType>
     </Compile>

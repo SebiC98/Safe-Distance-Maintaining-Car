@@ -31,6 +31,7 @@ ISR(INT0_vect)
 		
 		TCNT1=0;
 		//resetting the counter memory
+		
 		i=0;
 	}
 	if (i==0)
