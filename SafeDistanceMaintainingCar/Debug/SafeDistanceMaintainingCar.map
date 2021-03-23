@@ -363,12 +363,12 @@ END GROUP
  .text.__vector_1
                 0x000000a6      0x104 SafeDistanceMaintainingCar.o
                 0x000000a6                __vector_1
- .text.USART_Init
+ .text.UART_Init
                 0x000001aa       0x16 SafeDistanceMaintainingCar.o
-                0x000001aa                USART_Init
- .text.USART_Transmit
+                0x000001aa                UART_Init
+ .text.UART_Transmit
                 0x000001c0       0x10 SafeDistanceMaintainingCar.o
-                0x000001c0                USART_Transmit
+                0x000001c0                UART_Transmit
  .text.Serial_print_text
                 0x000001d0       0x2a SafeDistanceMaintainingCar.o
                 0x000001d0                Serial_print_text
@@ -560,18 +560,18 @@ END GROUP
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x1dd SafeDistanceMaintainingCar.o
 
-.debug_line     0x00000000      0x220
+.debug_line     0x00000000      0x21f
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x220 SafeDistanceMaintainingCar.o
+ .debug_line    0x00000000      0x21f SafeDistanceMaintainingCar.o
 
 .debug_frame    0x00000000       0xe8
  *(.debug_frame)
  .debug_frame   0x00000000       0xe8 SafeDistanceMaintainingCar.o
 
-.debug_str      0x00000000      0x24f
+.debug_str      0x00000000      0x24d
  *(.debug_str)
- .debug_str     0x00000000      0x24f SafeDistanceMaintainingCar.o
-                                0x28d (size before relaxing)
+ .debug_str     0x00000000      0x24d SafeDistanceMaintainingCar.o
+                                0x28b (size before relaxing)
 
 .debug_loc      0x00000000      0x269
  *(.debug_loc)

@@ -22,7 +22,7 @@
 #include "UltrasonicSensor.h"
 //header with the code for the Ultrasonic Sensor
 
-#include "USART.h"
+#include "UART.h"
 //header with the code for the Universal Synchronous/Asynchronous Receiver/Transmitter 
 
 
@@ -30,7 +30,7 @@
 int main(void)
 {
 
-	USART_Init();
+	UART_Init();
 	
 	DDRD |= ((1 << DDD4) | (1 << DDD7));     // set pin 3 of Port B as output
 	

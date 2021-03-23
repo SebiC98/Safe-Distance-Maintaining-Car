@@ -2,7 +2,7 @@
  * UltrasonicSensor.h
  *
  * Created: 3/22/2021 2:01:15 PM
- *  Author: Sebastian Cioat?
+ *  Author: Sebastian Cioata
  */ 
 
 

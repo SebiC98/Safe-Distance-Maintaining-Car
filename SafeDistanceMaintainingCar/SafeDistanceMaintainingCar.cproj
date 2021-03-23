@@ -102,7 +102,7 @@
     <Compile Include="UltrasonicSensor.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="USART.h">
+    <Compile Include="UART.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

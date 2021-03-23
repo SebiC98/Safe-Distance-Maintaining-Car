@@ -17,15 +17,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   6 .debug_abbrev 000001dd  00000000  00000000  00000ac8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000220  00000000  00000000  00000ca5  2**0
+  7 .debug_line   0000021f  00000000  00000000  00000ca5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000e8  00000000  00000000  00000ec8  2**2
+  8 .debug_frame  000000e8  00000000  00000000  00000ec4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000024f  00000000  00000000  00000fb0  2**0
+  9 .debug_str    0000024d  00000000  00000000  00000fac  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000269  00000000  00000000  000011ff  2**0
+ 10 .debug_loc    00000269  00000000  00000000  000011f9  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000038  00000000  00000000  00001468  2**0
+ 11 .debug_ranges 00000038  00000000  00000000  00001462  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -232,10 +232,10 @@ ISR(INT0_vect)
  1a6:	1f 90       	pop	r1
  1a8:	18 95       	reti
 
-000001aa <USART_Init>:
+000001aa <UART_Init>:
 
 
-void USART_Init()
+void UART_Init()
 {
 	//enable receive and transmit
 	UCSR0B |= ((1<< RXEN0) | (1<< TXEN0));
@@ -253,16 +253,16 @@ void USART_Init()
  1ba:	80 93 c4 00 	sts	0x00C4, r24
  1be:	08 95       	ret
 
-000001c0 <USART_Transmit>:
+000001c0 <UART_Transmit>:
 }
 
-void USART_Transmit(unsigned char data){
+void UART_Transmit(unsigned char data){
 	while(!(UCSR0A & (1<<UDRE0) )){
  1c0:	e0 ec       	ldi	r30, 0xC0	; 192
  1c2:	f0 e0       	ldi	r31, 0x00	; 0
  1c4:	90 81       	ld	r25, Z
  1c6:	95 ff       	sbrs	r25, 5
- 1c8:	fd cf       	rjmp	.-6      	; 0x1c4 <USART_Transmit+0x4>
+ 1c8:	fd cf       	rjmp	.-6      	; 0x1c4 <UART_Transmit+0x4>
 		
 	}
 	
@@ -291,8 +291,8 @@ void Serial_print_text(char* text){
 	unsigned char i=0;
  1de:	10 e0       	ldi	r17, 0x00	; 0
 	while (text[i] != '$'){
-		USART_Transmit(text[i]);
- 1e0:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <USART_Transmit>
+		UART_Transmit(text[i]);
+ 1e0:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <UART_Transmit>
 		i++;
  1e4:	1f 5f       	subi	r17, 0xFF	; 255
 	UDR0 = data;
@@ -307,7 +307,7 @@ void Serial_print_text(char* text){
  1ec:	80 81       	ld	r24, Z
  1ee:	84 32       	cpi	r24, 0x24	; 36
  1f0:	b9 f7       	brne	.-18     	; 0x1e0 <Serial_print_text+0x10>
-		USART_Transmit(text[i]);
+		UART_Transmit(text[i]);
 		i++;
 	}
 }
@@ -330,7 +330,7 @@ void Serial_print_val(unsigned int val){
  204:	8a 30       	cpi	r24, 0x0A	; 10
  206:	91 05       	cpc	r25, r1
  208:	30 f0       	brcs	.+12     	; 0x216 <Serial_print_val+0x1c>
-	USART_Transmit(val%10 + 0x30);
+	UART_Transmit(val%10 + 0x30);
 	else{
 		while(val / p > 10)
  20a:	8e 36       	cpi	r24, 0x6E	; 110
@@ -344,7 +344,7 @@ void Serial_print_val(unsigned int val){
 	unsigned char digit;
 	unsigned int p = 10;
 	if(val < 10)
-	USART_Transmit(val%10 + 0x30);
+	UART_Transmit(val%10 + 0x30);
  216:	9c 01       	movw	r18, r24
  218:	ad ec       	ldi	r26, 0xCD	; 205
  21a:	bc ec       	ldi	r27, 0xCC	; 204
@@ -371,7 +371,7 @@ void Serial_print_val(unsigned int val){
  246:	39 0b       	sbc	r19, r25
  248:	c9 01       	movw	r24, r18
  24a:	80 5d       	subi	r24, 0xD0	; 208
- 24c:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <USART_Transmit>
+ 24c:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <UART_Transmit>
  250:	44 c0       	rjmp	.+136    	; 0x2da <Serial_print_val+0xe0>
 	else{
 		while(val / p > 10)
@@ -392,7 +392,7 @@ void Serial_print_val(unsigned int val){
 	unsigned char digit;
 	unsigned int p = 10;
 	if(val < 10)
-	USART_Transmit(val%10 + 0x30);
+	UART_Transmit(val%10 + 0x30);
 	else{
 		while(val / p > 10)
  26c:	c8 01       	movw	r24, r16
@@ -445,12 +445,12 @@ void Serial_print_val(unsigned int val){
  2ca:	d6 95       	lsr	r29
  2cc:	c7 95       	ror	r28
 			digit += 0x30;
-			USART_Transmit(digit);
+			UART_Transmit(digit);
  2ce:	80 e3       	ldi	r24, 0x30	; 48
  2d0:	84 0f       	add	r24, r20
- 2d2:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <USART_Transmit>
+ 2d2:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <UART_Transmit>
 	if(val < 10)
-	USART_Transmit(val%10 + 0x30);
+	UART_Transmit(val%10 + 0x30);
 	else{
 		while(val / p > 10)
 		p *= 10;
@@ -459,7 +459,7 @@ void Serial_print_val(unsigned int val){
  2d8:	91 f6       	brne	.-92     	; 0x27e <Serial_print_val+0x84>
 			p /= 10;
 			digit += 0x30;
-			USART_Transmit(digit);
+			UART_Transmit(digit);
 		}
 	}
 }
@@ -475,8 +475,8 @@ void Serial_print_val(unsigned int val){
 int main(void)
 {
 
-	USART_Init();
- 2e4:	0e 94 d5 00 	call	0x1aa	; 0x1aa <USART_Init>
+	UART_Init();
+ 2e4:	0e 94 d5 00 	call	0x1aa	; 0x1aa <UART_Init>
 	
 	DDRD |= ((1 << DDD4) | (1 << DDD7));     // set pin 3 of Port B as output
  2e8:	8a b1       	in	r24, 0x0a	; 10
