@@ -238,15 +238,15 @@ ISR(INT0_vect)
 
 void UART_Init()
 {
-	//enable receive and transmit
+
 	UCSR0B |= ((1<< RXEN0) | (1<< TXEN0));
  1aa:	e1 ec       	ldi	r30, 0xC1	; 193
  1ac:	f0 e0       	ldi	r31, 0x00	; 0
  1ae:	80 81       	ld	r24, Z
  1b0:	88 61       	ori	r24, 0x18	; 24
  1b2:	80 83       	st	Z, r24
+	// enable receive and transmit
 	
-	//baud rate 9600
 	UBRR0H = 0;
  1b4:	10 92 c5 00 	sts	0x00C5, r1
 	UBRR0L = 103;
@@ -255,6 +255,7 @@ void UART_Init()
  1be:	08 95       	ret
 
 000001c0 <UART_Transmit>:
+	// baud rate 9600
 }
 
 void UART_Transmit(unsigned char data){
@@ -264,14 +265,15 @@ void UART_Transmit(unsigned char data){
  1c4:	90 81       	ld	r25, Z
  1c6:	95 ff       	sbrs	r25, 5
  1c8:	fd cf       	rjmp	.-6      	; 0x1c4 <UART_Transmit+0x4>
+	// wait for empty transmit buffer
 		
 	}
-	
 	UDR0 = data;
  1ca:	80 93 c6 00 	sts	0x00C6, r24
  1ce:	08 95       	ret
 
 000001d0 <Serial_print_text>:
+	// put data into buffer
 }
 
 void Serial_print_text(char* text){
@@ -284,8 +286,8 @@ void Serial_print_text(char* text){
  1d8:	88 81       	ld	r24, Y
  1da:	84 32       	cpi	r24, 0x24	; 36
  1dc:	51 f0       	breq	.+20     	; 0x1f2 <Serial_print_text+0x22>
-	
 	UDR0 = data;
+	// put data into buffer
 }
 
 void Serial_print_text(char* text){
@@ -296,7 +298,7 @@ void Serial_print_text(char* text){
  1e0:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <UART_Transmit>
 		i++;
  1e4:	1f 5f       	subi	r17, 0xFF	; 255
-	UDR0 = data;
+	// put data into buffer
 }
 
 void Serial_print_text(char* text){
@@ -318,6 +320,7 @@ void Serial_print_text(char* text){
  1f8:	08 95       	ret
 
 000001fa <Serial_print_val>:
+// function to print text on serial monitor
 
 void Serial_print_val(unsigned int val){
  1fa:	0f 93       	push	r16
@@ -471,13 +474,13 @@ void Serial_print_val(unsigned int val){
  2e2:	08 95       	ret
 
 000002e4 <controlMotors>:
+
 #ifndef MOTORDRIVER_H_
 #define MOTORDRIVER_H_
 
 void controlMotors(unsigned int pulse){
-	
-	if(pulse <=6){
- 2e4:	87 30       	cpi	r24, 0x07	; 7
+	if(pulse <=5){
+ 2e4:	86 30       	cpi	r24, 0x06	; 6
  2e6:	91 05       	cpc	r25, r1
  2e8:	20 f4       	brcc	.+8      	; 0x2f2 <controlMotors+0xe>
 		OCR2A = 255;
@@ -486,9 +489,9 @@ void controlMotors(unsigned int pulse){
  2f0:	08 95       	ret
 		//motor stopped, duty cycle 0%
 		
-		}else if(pulse>6 && pulse <=26){
+		}else if(pulse>5 && pulse <=25){
  2f2:	9c 01       	movw	r18, r24
- 2f4:	27 50       	subi	r18, 0x07	; 7
+ 2f4:	26 50       	subi	r18, 0x06	; 6
  2f6:	31 09       	sbc	r19, r1
  2f8:	24 31       	cpi	r18, 0x14	; 20
  2fa:	31 05       	cpc	r19, r1
@@ -498,8 +501,8 @@ void controlMotors(unsigned int pulse){
  300:	80 93 b3 00 	sts	0x00B3, r24
  304:	08 95       	ret
 		// duty cycle 50%
-		}else if(pulse >26){
- 306:	4b 97       	sbiw	r24, 0x1b	; 27
+		}else if(pulse >25){
+ 306:	4a 97       	sbiw	r24, 0x1a	; 26
  308:	10 f0       	brcs	.+4      	; 0x30e <controlMotors+0x2a>
 		OCR2A = 0;
  30a:	10 92 b3 00 	sts	0x00B3, r1
@@ -510,20 +513,23 @@ void controlMotors(unsigned int pulse){
 
 void pwm_init()
 {
-	// initialize TCCR2 as: fast pwm mode, non inverting
+	
 	TCCR2A |= (1<<COM2A1) | (1<<COM2A0) | (1<<WGM21) | (1<<WGM20);
  310:	e0 eb       	ldi	r30, 0xB0	; 176
  312:	f0 e0       	ldi	r31, 0x00	; 0
  314:	80 81       	ld	r24, Z
  316:	83 6c       	ori	r24, 0xC3	; 195
  318:	80 83       	st	Z, r24
-	TCCR2B |= (1<<CS21); // clkT2S/8 prescale
+	// initialize TCCR2 as: fast pwm mode, non inverting
+	
+	TCCR2B |= (1<<CS21);
  31a:	e1 eb       	ldi	r30, 0xB1	; 177
  31c:	f0 e0       	ldi	r31, 0x00	; 0
  31e:	80 81       	ld	r24, Z
  320:	82 60       	ori	r24, 0x02	; 2
  322:	80 83       	st	Z, r24
-	// OC2RA pin made as output
+    // clkT2S/8 prescale
+	
 	DDRB |= (1<<PB3);
  324:	23 9a       	sbi	0x04, 3	; 4
  326:	08 95       	ret

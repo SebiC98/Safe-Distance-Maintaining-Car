@@ -10,7 +10,6 @@
 #define MOTORDRIVER_H_
 
 void controlMotors(unsigned int pulse){
-	
 	if(pulse <=5){
 		OCR2A = 255;
 		//motor stopped, duty cycle 0%
